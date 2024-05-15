@@ -1,0 +1,68 @@
+@import "rsuite/dist/rsuite.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+
+.rs-picker-toggle-active {
+    box-shadow: none !important;
+    border-color: #FF004F !important;
+}
+
+.rs-picker-toggle:hover {
+    border-color: #FF004F !important;
+}
+
+.rs-picker-value-item {
+    color: #FF004F !important;
+}
+
+.rs-picker-value-count {
+    background-color: #FF004F;
+}
+
+.rs-checkbox-inner:active {
+    border-color: #FF004F !important;
+}
+
+.rs-input-group:hover {
+    border-color: #FF004F !important;
+}
+
+.rs-input-group-inside:focus-within {
+    box-shadow: none !important;
+}
+
+.rs-input-group:focus-within {
+    outline: none !important;
+}
+.rs-btn-ghost {
+    border: 2px solid #FF004F;
+    color: #FF004F;
+    font-weight: 500;
+}
+.rs-btn-ghost:hover{
+    font-weight: 700;
+    box-shadow: none;
+    color: #FF004F;
+    border-color: #FF004F;
+}
+.rs-btn-ghost:focus{
+    border-color: #FF004F;
+    box-shadow: none;
+    color: #FF004F;
+}
+.rs-btn-ghost:active{
+    border-color: #FF004F;
+    box-shadow: none;
+    color: #FF004F;
+}
