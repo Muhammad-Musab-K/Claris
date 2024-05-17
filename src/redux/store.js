@@ -8,13 +8,17 @@ import RestaurantsSlice from "./RestaurantsSlice";
 import BookingSlice from "./BookingSlice";
 import LoginSlice from "./LoginSlice";
 import ContentSlice from "./ContentSlice";
+import ActivationSlice from "./ActivationSlice";
+import ModalSlice from "./ModalSlice";
 
 const rootReducer = combineReducers({
     location: LocationSlice,
     restaurant: RestaurantsSlice,
     booking: BookingSlice,
     loginUser: LoginSlice,
-    content: ContentSlice
+    content: ContentSlice,
+    activationButton: ActivationSlice,
+    modalData: ModalSlice
 });
 
 const persistConfig = {

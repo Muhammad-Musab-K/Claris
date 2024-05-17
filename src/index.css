@@ -4,14 +4,11 @@
 @tailwind components;
 @tailwind utilities;
 
-
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
-
-
 
 .rs-picker-toggle-active {
     box-shadow: none !important;
@@ -45,23 +42,28 @@
 .rs-input-group:focus-within {
     outline: none !important;
 }
+
 .rs-btn-ghost {
     border: 2px solid #FF004F;
     color: #FF004F;
     font-weight: 500;
+    padding: 10px;
 }
-.rs-btn-ghost:hover{
+
+.rs-btn-ghost:hover {
     font-weight: 700;
     box-shadow: none;
     color: #FF004F;
     border-color: #FF004F;
 }
-.rs-btn-ghost:focus{
+
+.rs-btn-ghost:focus {
     border-color: #FF004F;
     box-shadow: none;
     color: #FF004F;
 }
-.rs-btn-ghost:active{
+
+.rs-btn-ghost:active {
     border-color: #FF004F;
     box-shadow: none;
     color: #FF004F;

@@ -24,13 +24,11 @@ function Form() {
         await dispatch(LoginUser({ email, password }))
         navigate("/", { replace: true });
     }
-
-
     return (
-        <div className='shadow p-4 flex flex-col gap-3 w-[400px] rounded-md'>
-            <h1 className='text-xl text-[#FF004F] font-semibold'>Login to your Account</h1>
+        <div className='shadow p-4 flex flex-col gap-3 w-[300px] md:w-[400px] rounded-md '>
+            <h1 className='text-xl text-[#FF004F] md:font-semibold'>Login to your Account</h1>
             <div className='flex flex-col gap-2'>
-                <label className="font-semibold text-base" >Email Address</label>
+                <label className="md:font-semibold text-base" >Email Address</label>
                 <input
                     className="border rounded-sm  border-slate-400 py-1 px-1.5 focus:outline-slate-300"
                     type="text"
@@ -39,7 +37,7 @@ function Form() {
                 />
             </div>
             <div className='flex flex-col gap-2'>
-                <label className="font-semibold text-base" >Password</label>
+                <label className="md:font-semibold text-base" >Password</label>
                 <input
                     className="border rounded-sm border-slate-400 py-1 px-1.5 focus:outline-slate-300 "
                     type="password"
@@ -48,7 +46,7 @@ function Form() {
             </div>
             <Button
                 onClick={handleLogin}
-                className="w-24 font-semibold text-base text-white bg-[#FF004F] rounded-md py-2">Login</Button>
+                className="w-24 md:font-semibold text-base text-white bg-[#FF004F] rounded-md py-2">Login</Button>
         </div>
     )
 }

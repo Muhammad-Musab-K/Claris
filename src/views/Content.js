@@ -82,7 +82,7 @@ function Content({ ids, restraurantId }) {
                 totalPage={totalPage} />
             <div className='flex flex-col gap-6'>
                 {content}
-                {/* musab khan */}
+              
             </div>
         </div>
     );

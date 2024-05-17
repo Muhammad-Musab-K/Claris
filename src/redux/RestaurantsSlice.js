@@ -15,7 +15,6 @@ export const restaurentsData = createAsyncThunk(
             )
             const response = data
             return response.data
-
         } catch (err) {
             console.log(err.message);
         }

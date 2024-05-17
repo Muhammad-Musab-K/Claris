@@ -1,12 +1,23 @@
-
 import React from 'react';
-import TikTok from "../assests/tiktok.png";
-import Insta from "../assests/insta.png";
-import background from "../assests/clarisimg.jpeg"
 import { Link } from 'react-router-dom';
-import Span from "./Span";
+import { useSelector, useDispatch } from 'react-redux';
 
-function Cards({ user_turbo, restaurant_turbo, BookingDay, canceled, Rejectedstatus, Approved, actions_turbo, timeframes_turbo }) {
+import Insta from "../assests/insta.png";
+import TikTok from "../assests/tiktok.png";
+import background from "../assests/clarisimg.jpeg"
+import Span from "./Span";
+import { Button } from 'rsuite';
+import { isOpen } from '../redux/ActivationSlice';
+import { ModalData } from '../redux/ModalSlice';
+
+function Cards({ user_turbo, restaurant_turbo, BookingDay, canceled, Rejectedstatus, Approved, actions_turbo, timeframes_turbo, id }) {
+
+    const dispatch = useDispatch()
+    const modalOpen = () => {
+
+        dispatch(isOpen(true))
+        dispatch(ModalData({ user_turbo }))
+    }
 
     const bookingCompleted = () => {
         if (BookingDay) {
@@ -25,12 +36,13 @@ function Cards({ user_turbo, restaurant_turbo, BookingDay, canceled, Rejectedsta
     };
 
     const actionName = actions_turbo?.Action_Name.split(" ")[0];
+    const ContentTrue = useSelector(state => state.activationButton.activateContent)
 
     return (
-        <div className='border-2 mb-3 w-full md:m-2 md:w-[250px] flex flex-col gap-4 bg-slate-50 rounded-lg p-3'>
+        <div className='border-2 mb-3 w-full md:m-2 md:w-[250px] flex flex-col gap-4 bg-slate-50 rounded-lg p-3 hover:opacity-90'>
             <div
                 style={{
-                    backgroundImage: `url(${restaurant_turbo?.Cover?.url?restaurant_turbo?.Cover?.url:background})`,
+                    backgroundImage: `url(${restaurant_turbo?.Cover?.url ? restaurant_turbo?.Cover?.url : background})`,
                     backgroundSize: "cover",
                     backgroundPosition: "center",
                 }}
@@ -46,23 +58,28 @@ function Cards({ user_turbo, restaurant_turbo, BookingDay, canceled, Rejectedsta
             </div>
             <div className='flex gap-2'>
                 <img
+                    onClick={modalOpen}
                     className='h-20 w-20 rounded-lg object-cover'
                     src={user_turbo?.Profile_pic?.url || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVrLgzSMdH62yI75gb9jx3MTTR0o0VLDntTteWqR6rPQ&s"}
-                    alt="Profile pic"
-                />
+                    alt="Profile pic" />
+
                 <div className='flex flex-col w-full'>
                     <h3 className='font-semibold text-lg md:text-sm leading-none text-black'>
                         {user_turbo?.name || "unknown"}
                     </h3>
+                    <span>{id}</span>
                     <div className='flex relative'>
                         <div>
                             {user_turbo?.IG_account && (
-                                <Link to={`https://instagram.com/${user_turbo.IG_account}`}>
-                                    <img className='h-8 w-8' src={Insta} alt="Instagram" />
+                                <Link to={user_turbo.IG_account.includes("https://www.instagram.com/")
+                                    ? user_turbo.IG_account
+                                    : `https://www.instagram.com/${user_turbo.IG_account}`}>
+                                    <img className="h-8 w-8" src={Insta} alt="Instagram" />
                                 </Link>
                             )}
+
                             {user_turbo?.Tiktok_account && (
-                                <Link to={`https://tiktok/en/${user_turbo.Tiktok_account}`}>
+                                <Link to={user_turbo.Tiktok_account.includes("https://www.tiktok.com/") ? user_turbo.Tiktok_account : `https://www.tiktok.com/${user_turbo.Tiktok_account}`}>
                                     <img className='h-8 w-8' src={TikTok} alt="TikTok" />
                                 </Link>
                             )}
@@ -88,6 +105,12 @@ function Cards({ user_turbo, restaurant_turbo, BookingDay, canceled, Rejectedsta
                     </h6>
                 </div>
             </div>
+
+            {ContentTrue ? <div className='flex gap-3'>
+                <Button className='bg-[#FF004F] text-white px-5'>Approve</Button>
+                <Button className='px-10 ' appearance='ghost'>Reject</Button>
+            </div> : null}
+
         </div>
     );
 }

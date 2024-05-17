@@ -1,6 +1,6 @@
 import React from 'react'
 
-function UserStatusCard() {
+function Users() {
     return (
         <div>
 
@@ -8,4 +8,4 @@ function UserStatusCard() {
     )
 }
 
-export default UserStatusCard
+export default Users
