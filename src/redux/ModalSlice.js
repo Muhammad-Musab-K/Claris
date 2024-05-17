@@ -1,7 +1,8 @@
 import { createDraftSafeSelector, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    userModal: {}
+    userModal: {},
+    influencerModal: {}
 };
 
 const ModalSlice = createSlice({
@@ -10,16 +11,26 @@ const ModalSlice = createSlice({
     reducers: {
         ModalData(state, { payload }) {
             state.userModal = payload;
+        },
+        InfluencerModalData(state, { payload }) {
+            state.influencerModal = payload;
         }
     }
 });
 
-const selectUserModal = (state) => state.modalData.userModal;
-const selectUserTurbo = createDraftSafeSelector(
+const selectUserModal = (state) => state?.modalData?.userModal;
+const selectInfluencerModal = (state) => state?.modalData?.influencerModal
+
+export const selectUserTurbo = createDraftSafeSelector(
     selectUserModal,
     (userModal) => userModal?.user_turbo
 );
+export const selectInfluencerTurbo = createDraftSafeSelector(
+    selectInfluencerModal,
+    (influencerModal) => influencerModal
+);
 
-export const { ModalData } = ModalSlice.actions;
+
+export const { ModalData ,InfluencerModalData } = ModalSlice.actions;
 export default ModalSlice.reducer;
-export { selectUserTurbo };
+

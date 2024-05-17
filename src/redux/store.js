@@ -10,6 +10,8 @@ import LoginSlice from "./LoginSlice";
 import ContentSlice from "./ContentSlice";
 import ActivationSlice from "./ActivationSlice";
 import ModalSlice from "./ModalSlice";
+import InfluencerSlice from "./InfluencerSlice";
+import HandleReqSlice from "./HandleReqSlice";
 
 const rootReducer = combineReducers({
     location: LocationSlice,
@@ -18,7 +20,9 @@ const rootReducer = combineReducers({
     loginUser: LoginSlice,
     content: ContentSlice,
     activationButton: ActivationSlice,
-    modalData: ModalSlice
+    modalData: ModalSlice,
+    influencer: InfluencerSlice,
+    request: HandleReqSlice
 });
 
 const persistConfig = {
