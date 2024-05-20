@@ -2,21 +2,24 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Button, CheckPicker, Stack } from 'rsuite';
+import { useNavigate } from 'react-router-dom';
 
 import Navbar from '../components/Navbar'
 import { restaurentsData } from '../redux/RestaurantsSlice'
 import Bookings from './Bookings'
 import Content from './Content'
 import ActiveButton from '../components/ActiveButton';
-import { activeBook, activeCon } from '../redux/ActivationSlice';
+import { activeBook, activeCon, isOpen } from '../redux/ActivationSlice';
 import BackButton from '../components/BackButton';
 import MyModal from '../components/Modal';
 
 function Restraurents() {
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const { id } = useParams()
     const [ids, setIds] = useState([])
     const [restro, setRestro] = useState([])
+
 
     let city;
     if (id === '1') city = "Milano"
@@ -38,7 +41,7 @@ function Restraurents() {
         dispatch(activeCon(true))
     }
 
-
+    const isopen = useSelector(state => state?.activationButton?.ModalAction)
     const bookingActive = useSelector(state => state.activationButton.activateBooking);
     const contentActive = useSelector(state => state.activationButton.activateContent);
 
@@ -46,20 +49,18 @@ function Restraurents() {
     const restrau = data?.map(item => ({ label: item.Name, value: item.id }))
 
     return (
-        <div className='w-full mb-4'>
+        <div className={`w-full mb-4 ${isopen ? "blur-sm" : ""} `}>
             <Navbar />
             <div className='max-w-7xl m-auto'>
                 <div className='m-6 flex justify-between'>
                     <BackButton />
                     <h1 className='font-semibold text-4xl text-center'>{city}</h1>
-                    <Button className='leading-3' appearance="ghost">Users</Button>
+                    <div></div>
                 </div>
                 <div className='mt-4 flex flex-col justify-center gap-2 md:gap-0 flex-wrap md:flex-row md:justify-between items-center px-10 pb-8'>
                     <div className='flex gap-2'>
-
                         <ActiveButton onClick={handleBookingPage} contentActive={bookingActive} text="Bookings" />
                         <ActiveButton onClick={handleContentPage} contentActive={contentActive} text="Content" />
-
                     </div>
                     <div className='flex gap-2 md:mr-3'>
                         <Stack spacing={10} direction="row" alignItems="flex-start">
@@ -77,6 +78,8 @@ function Restraurents() {
                             Apply
                         </Button>
                     </div>
+                    <Button onClick={() => navigate("/influencers")} appearance="ghost">Users</Button>
+
                 </div>
                 {bookingActive ? <Bookings ids={ids} restraurantId={id} />
                     : <Content ids={ids} restraurantId={id} />}

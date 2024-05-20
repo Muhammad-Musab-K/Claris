@@ -7,25 +7,27 @@ import { isOpen } from '../redux/ActivationSlice'
 import { selectInfluencerTurbo, } from '../redux/ModalSlice'
 import TikTok from "../assests/tiktok.png"
 import Insta from "../assests/insta.png"
-import { HandleReq } from '../redux/HandleReqSlice'
+import { HandleReject, HandleReq } from '../redux/HandleReqSlice'
 
 export default function InfluencerModal() {
 
     const dispatch = useDispatch()
     const influencerData = useSelector(selectInfluencerTurbo)
     function close() {
-        dispatch(isOpen(false))
+
     }
 
 
     const isopen = useSelector(state => state?.activationButton?.ModalAction)
     const token = useSelector(state => state?.loginUser?.token);
-    
-    const ApprovedReq = () => {
-        dispatch(HandleReq({ id: influencerData.id, res: true, token }))
+
+    const ApprovedReq = async () => {
+        await dispatch(HandleReq({ id: influencerData.id, res: true, token }))
+        dispatch(isOpen(false))
     }
     const NotApprovedReq = () => {
-        dispatch(HandleReq({ id: influencerData.id, res: false, token }))
+        dispatch(HandleReject({ id: influencerData.id, res: false, token }))
+        dispatch(isOpen(false))
     }
 
     return (
@@ -42,7 +44,7 @@ export default function InfluencerModal() {
                                 leaveFrom="opacity-100 transform-[scale(100%)]"
                                 leaveTo="opacity-0 transform-[scale(95%)]"
                             >
-                                <DialogPanel className="w-full max-w-sm rounded-xl flex flex-col gap-3 bg-white/5 p-6 backdrop-blur-2xl shadow ">
+                                <DialogPanel className="w-full max-w-sm rounded-xl flex flex-col gap-3 bg-white p-6 shadow ">
                                     <div className='flex gap-4'>
                                         <img
                                             className='h-36 w-h-36 rounded-lg object-cover'
@@ -84,12 +86,7 @@ export default function InfluencerModal() {
                                             onClick={NotApprovedReq}
                                             className='px-10 ' appearance='ghost'>Reject</Button>
                                     </div>
-                                    <Button
-                                        className="bg-[#FF004F] text-white py-2 rounded-lg"
-                                        onClick={close}
-                                    >
-                                        Close
-                                    </Button>
+
                                 </DialogPanel>
                             </TransitionChild>
                         </div>

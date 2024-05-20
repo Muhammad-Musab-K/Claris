@@ -7,7 +7,8 @@ import { acceptedInfluencer } from '../redux/InfluencerSlice'
 
 function AcceptInfluencer() {
 
-    const isAcceptedInfluencer = useSelector(state => acceptedInfluencer(state))
+    const isAcceptedInfluencer = useSelector(acceptedInfluencer)
+    console.log('isAcceptedInfluencer', isAcceptedInfluencer)
     return (
 
         <section className='flex flex-col gap-9 my-5'>

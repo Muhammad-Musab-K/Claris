@@ -1,57 +1,57 @@
-import { createSlice, createAsyncThunk, createDraftSafeSelector } from "@reduxjs/toolkit";
-import axios from "axios";
-
-export const ContentData = createAsyncThunk(
-    "Bookings/AllBookings", async ({ ids, page, restraurantId, token }) => {
-        try {
-            const url = `https://xbut-eryu-hhsg.f2.xano.io/api:bwh6Xc5O/booking_turbo/content_status/${restraurantId}`;
-            const data = await axios.get(url, {
-                params: {
-                    restaurantIds: ids,
-                    page: page
-                },
-                headers: { "Authorization": token }
-            });
-
-            const response = data;
-            return response;
-        }
-        catch (err) {
-            console.log(err.message)
-        }
-    }
-)
+import { createSlice, createDraftSafeSelector } from "@reduxjs/toolkit";
 
 const initialState = {
     status: "idle",
-    content: [],
+    content: {},
+    Pagination: {}
 }
-
+const key = 'content'
 const ContentSlice = createSlice({
     name: "content",
     initialState,
-    reducers: {},
-    extraReducers: (builder) => {
-        builder
-            .addCase(ContentData.pending, (state) => {
-                state.status = "loading"
-            })
-            .addCase(ContentData.fulfilled, (state, { payload }) => {
-                state.status = "succeeded"
-                state.content = payload
-            })
-            .addCase(ContentData.rejected, (state) => {
-                state.status = "reject"
-            })
-    }
+    reducers: {
+        setNewContent: (state, { payload }) => {
+            state.content = payload.reduce((prev, content) => {
+                return {
+                    ...prev,
+                    [content.id + key]: content
+                }
+            }, {});
+        },
+        setAprroveContent(state, { payload }) {
+            const content = state.content[payload + key]
+        },
+        setPagination: (state, { payload }) => {
+            state.Pagination = payload
+        }
+    },
+
 })
 
+export const {
+    setNewContent,
+    setPagination,
+    setAprroveContent,
+} = ContentSlice.actions
+
+export const contentState = createDraftSafeSelector(
+    [state => state.content],
+    state => state
+)
+export const contentObject = createDraftSafeSelector(
+    [contentState],
+    content => content.content
+)
+export const selectPagination = createDraftSafeSelector(
+    [contentState],
+    content => content.Pagination
+)
 export const ContentItemData = createDraftSafeSelector(
-    [state => state?.content?.content?.data], (data) =>
-    data?.items.map(item => item)
+    [contentObject],
+    (data) => Object.values(data || {})
 )
 export const Totalpage = createDraftSafeSelector(
-    [state => state?.content?.content?.data], (data) =>
+    [selectPagination], (data) =>
     data?.pageTotal
 )
 

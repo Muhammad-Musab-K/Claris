@@ -31,7 +31,7 @@ export default function MyModal() {
                                 leaveFrom="opacity-100 transform-[scale(100%)]"
                                 leaveTo="opacity-0 transform-[scale(95%)]"
                             >
-                                <DialogPanel className="w-full max-w-sm rounded-xl flex flex-col gap-3 bg-white/5 p-6 backdrop-blur-2xl shadow ">
+                                <DialogPanel className="w-full max-w-sm rounded-xl flex flex-col gap-3 bg-white p-6  shadow ">
                                     <div className='flex gap-4'>
                                         <img
                                             className='h-36 w-h-36 rounded-lg object-cover'

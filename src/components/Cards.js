@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -9,8 +9,12 @@ import Span from "./Span";
 import { Button } from 'rsuite';
 import { isOpen } from '../redux/ActivationSlice';
 import { ModalData } from '../redux/ModalSlice';
+import { setContent } from '../redux/Action/content.action';
+import { selectIsLoggedIn } from '../redux/LoginSlice';
 
-function Cards({ user_turbo, restaurant_turbo, BookingDay, canceled, Rejectedstatus, Approved, actions_turbo, timeframes_turbo, id }) {
+function Cards({ user_turbo, restaurant_turbo, BookingDay, canceled, Rejectedstatus, Approved, actions_turbo, timeframes_turbo, id, content_status_turbo_id }) {
+
+    const [showButton, setShowButton] = useState(false)
 
     const dispatch = useDispatch()
     const modalOpen = () => {
@@ -26,6 +30,11 @@ function Cards({ user_turbo, restaurant_turbo, BookingDay, canceled, Rejectedsta
         }
         return false;
     };
+    const token = useSelector(selectIsLoggedIn)
+    const handleContentApprovedOrReject = async (status) => {
+        await dispatch(setContent({ id, status, token }))
+        setShowButton(true)
+    }
 
     const bookingStatus = () => {
         if (canceled) return <Span bg_color="bg-red-500" text="Canceled" />;
@@ -67,7 +76,6 @@ function Cards({ user_turbo, restaurant_turbo, BookingDay, canceled, Rejectedsta
                     <h3 className='font-semibold text-lg md:text-sm leading-none text-black'>
                         {user_turbo?.name || "unknown"}
                     </h3>
-                    <span>{id}</span>
                     <div className='flex relative'>
                         <div>
                             {user_turbo?.IG_account && (
@@ -105,11 +113,30 @@ function Cards({ user_turbo, restaurant_turbo, BookingDay, canceled, Rejectedsta
                     </h6>
                 </div>
             </div>
+            {ContentTrue ? (
+                <div className='flex gap-3'>
+                    {content_status_turbo_id === 1 ? (
+                        <>
+                            <Button
+                                onClick={() => handleContentApprovedOrReject(2)}
+                                className='bg-[#FF004F] text-white px-5'
+                            >
+                                Approve
+                            </Button>
+                            <Button
+                                onClick={() => handleContentApprovedOrReject(3)}
+                                className='px-10'
+                                appearance='ghost'
+                            >
+                                Reject
+                            </Button>
+                        </>
+                    ) : (
+                        <div>Completed</div>
+                    )}
+                </div>
+            ) : null}
 
-            {ContentTrue ? <div className='flex gap-3'>
-                <Button className='bg-[#FF004F] text-white px-5'>Approve</Button>
-                <Button className='px-10 ' appearance='ghost'>Reject</Button>
-            </div> : null}
 
         </div>
     );

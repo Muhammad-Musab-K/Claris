@@ -3,23 +3,26 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ColorRing } from 'react-loader-spinner';
 
 import NoBookingCard from '../components/NoBookingCard';
-import { ContentData, Totalpage, ContentItemData } from '../redux/ContentSlice';
+import { Totalpage, ContentItemData, selectPagination } from '../redux/ContentSlice';
 import Cards from '../components/Cards';
 import Buttons from '../components/Button';
+import { getContentData } from '../redux/Action/content.action';
 
 function Content({ ids, restraurantId }) {
     const [page, setPage] = useState(1);
     const dispatch = useDispatch();
     const token = useSelector(state => state?.loginUser?.token);
-
+    const pagination = useSelector(selectPagination)
+    console.log(pagination, "checkPagination")
     useEffect(() => {
-        if (token) dispatch(ContentData({ ids, page, restraurantId, token }));
+        if (token) dispatch(getContentData({ ids, page, restraurantId, token }));
     }, [ids, page, restraurantId, token, dispatch]);
 
     useEffect(() => { setPage(1) }, [ids]);
 
-    const data = useSelector(state => ContentItemData(state));
-    const totalPage = useSelector(state => Totalpage(state));
+    const data = useSelector(ContentItemData);
+    console.log(data, 'checkSelecter');
+    const totalPage = useSelector(Totalpage);
 
     const next = () => { if (totalPage > page) setPage(prevPage => prevPage + 1); };
     const prev = () => { if (page > 1) setPage(prevPage => prevPage - 1); };
@@ -82,7 +85,7 @@ function Content({ ids, restraurantId }) {
                 totalPage={totalPage} />
             <div className='flex flex-col gap-6'>
                 {content}
-              
+
             </div>
         </div>
     );
