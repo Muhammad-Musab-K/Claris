@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { activeBook } from '../redux/ActivationSlice';
 
-
 function BackButton() {
     const navigate = useNavigate();
     const dispatch = useDispatch()

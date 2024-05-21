@@ -8,10 +8,11 @@ import Navbar from '../components/Navbar'
 import { restaurentsData } from '../redux/RestaurantsSlice'
 import Bookings from './Bookings'
 import Content from './Content'
-import ActiveButton from '../components/ActiveButton';
+import ActiveButton from '../Elements/ActiveButton';
 import { activeBook, activeCon, isOpen } from '../redux/ActivationSlice';
-import BackButton from '../components/BackButton';
+import BackButton from '../Elements/BackButton';
 import MyModal from '../components/Modal';
+import Container from '../Elements/Container';
 
 function Restraurents() {
     const dispatch = useDispatch()
@@ -51,7 +52,7 @@ function Restraurents() {
     return (
         <div className={`w-full mb-4 ${isopen ? "blur-sm" : ""} `}>
             <Navbar />
-            <div className='max-w-7xl m-auto'>
+            <Container>
                 <div className='m-6 flex justify-between'>
                     <BackButton />
                     <h1 className='font-semibold text-4xl text-center'>{city}</h1>
@@ -62,7 +63,7 @@ function Restraurents() {
                         <ActiveButton onClick={handleBookingPage} contentActive={bookingActive} text="Bookings" />
                         <ActiveButton onClick={handleContentPage} contentActive={contentActive} text="Content" />
                     </div>
-                    <div className='flex gap-2 md:mr-3'>
+                    <div className='flex gap-2 self-end '>
                         <Stack spacing={10} direction="row" alignItems="flex-start">
                             <CheckPicker
                                 style={{ boxShadow: 'none' }}
@@ -83,7 +84,7 @@ function Restraurents() {
                 </div>
                 {bookingActive ? <Bookings ids={ids} restraurantId={id} />
                     : <Content ids={ids} restraurantId={id} />}
-            </div>
+            </Container >
             <MyModal />
         </div >
     )

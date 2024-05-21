@@ -31,6 +31,6 @@ export const selectInfluencerTurbo = createDraftSafeSelector(
 );
 
 
-export const { ModalData ,InfluencerModalData } = ModalSlice.actions;
+export const { ModalData, InfluencerModalData } = ModalSlice.actions;
 export default ModalSlice.reducer;
 

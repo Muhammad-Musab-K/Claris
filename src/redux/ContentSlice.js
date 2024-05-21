@@ -19,7 +19,8 @@ const ContentSlice = createSlice({
             }, {});
         },
         setAprroveContent(state, { payload }) {
-            const content = state.content[payload + key]
+            const content = state.content[payload.id + key]
+            content.content_status_turbo_id = payload.status
         },
         setPagination: (state, { payload }) => {
             state.Pagination = payload

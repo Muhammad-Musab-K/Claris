@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import Insta from "../assests/insta.png";
 import TikTok from "../assests/tiktok.png";
 import background from "../assests/clarisimg.jpeg"
-import Span from "./Span";
+import Span from "../Elements/Span";
 import { Button } from 'rsuite';
 import { isOpen } from '../redux/ActivationSlice';
 import { ModalData } from '../redux/ModalSlice';
@@ -87,8 +87,12 @@ function Cards({ user_turbo, restaurant_turbo, BookingDay, canceled, Rejectedsta
                             )}
 
                             {user_turbo?.Tiktok_account && (
-                                <Link to={user_turbo.Tiktok_account.includes("https://www.tiktok.com/") ? user_turbo.Tiktok_account : `https://www.tiktok.com/${user_turbo.Tiktok_account}`}>
-                                    <img className='h-8 w-8' src={TikTok} alt="TikTok" />
+                                <Link to={user_turbo.Tiktok_account.includes("https://www.tiktok.com/")
+                                    ? user_turbo.Tiktok_account
+                                    : `https://www.tiktok.com/${user_turbo.Tiktok_account}`}>
+                                    <img
+                                        className='h-8 w-8'
+                                        src={TikTok} alt="TikTok" />
                                 </Link>
                             )}
                         </div>
@@ -131,13 +135,13 @@ function Cards({ user_turbo, restaurant_turbo, BookingDay, canceled, Rejectedsta
                                 Reject
                             </Button>
                         </>
-                    ) : (
-                        <div>Completed</div>
-                    )}
+                    ) : content_status_turbo_id === 2 ? (
+                        <h6>Completed!</h6>
+                    ) : content_status_turbo_id === 3 ? (
+                        <h6>Rejected!</h6>
+                    ) : null}
                 </div>
             ) : null}
-
-
         </div>
     );
 }

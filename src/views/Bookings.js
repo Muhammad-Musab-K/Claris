@@ -5,7 +5,7 @@ import { ColorRing } from 'react-loader-spinner';
 import { bookingData, BookingItemData, Totalpages } from '../redux/BookingSlice';
 import NoBookingCard from '../components/NoBookingCard';
 import Cards from '../components/Cards';
-import Buttons from '../components/Button';
+import Buttons from '../Elements/Button';
 
 function Bookings({ ids, restraurantId }) {
   const [page, setPage] = useState(1);

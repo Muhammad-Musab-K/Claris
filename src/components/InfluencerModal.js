@@ -2,6 +2,7 @@ import { Dialog, DialogPanel, Transition, TransitionChild } from '@headlessui/re
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Button } from 'rsuite'
+import { HiMiniXMark } from "react-icons/hi2";
 
 import { isOpen } from '../redux/ActivationSlice'
 import { selectInfluencerTurbo, } from '../redux/ModalSlice'
@@ -14,7 +15,7 @@ export default function InfluencerModal() {
     const dispatch = useDispatch()
     const influencerData = useSelector(selectInfluencerTurbo)
     function close() {
-
+        dispatch(isOpen(false))
     }
 
 
@@ -45,11 +46,12 @@ export default function InfluencerModal() {
                                 leaveTo="opacity-0 transform-[scale(95%)]"
                             >
                                 <DialogPanel className="w-full max-w-sm rounded-xl flex flex-col gap-3 bg-white p-6 shadow ">
-                                    <div className='flex gap-4'>
+                                    <div className='flex gap-4 relative' >
                                         <img
                                             className='h-36 w-h-36 rounded-lg object-cover'
                                             src={influencerData?.Profile_pic?.url || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVrLgzSMdH62yI75gb9jx3MTTR0o0VLDntTteWqR6rPQ&s"}
                                             alt="Profile pic" />
+                                        <HiMiniXMark onClick={close} className='absolute right-0 text-xl hover:opacity-45' />
                                         <div>
                                             <h6 className='text-black md:font-semibold text-lg'>{influencerData?.name}</h6>
                                             {influencerData?.IG_account && (
@@ -64,6 +66,7 @@ export default function InfluencerModal() {
                                             )}
                                         </div>
                                     </div>
+
                                     <div className='flex font-semibold gap-3'>
                                         <div className=' '>
                                             <p>NickName</p>

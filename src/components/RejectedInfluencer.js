@@ -10,7 +10,7 @@ function RejectedInfluncer() {
     return (
 
         <section className='flex flex-col gap-9 my-5'>
-            <h1 className='text-black font-bold text-lg md:text-2xl'>Pending Requests</h1>
+            <h1 className='text-black font-bold text-lg md:text-2xl'>Rejected Requests</h1>
             <div className='flex flex-wrap gap-4'>
                 {isRejectedInfluencers?.map((item, index) => <InfluencerCard key={index} {...item} />)}
             </div>

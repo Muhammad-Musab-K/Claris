@@ -28,7 +28,6 @@ export const getContentData = createAsyncThunk(
     }
 )
 
-
 export const setContent = createAsyncThunk(
     "setContent", async ({ id, status, token }, { dispatch }) => {
         try {
@@ -41,7 +40,7 @@ export const setContent = createAsyncThunk(
                     }
                 })
             if (response) {
-                    dispatch(setAprroveContent(id))
+                dispatch(setAprroveContent({ id, status }))
             }
             return response.data;
         } catch (err) {

@@ -5,7 +5,7 @@ import { ColorRing } from 'react-loader-spinner'
 
 import { locationsData } from '../redux/LocationSlice'
 import Navbar from '../components/Navbar'
-import Box from '../components/Box'
+import Box from '../Elements/Box'
 
 function Locations() {
 

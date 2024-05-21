@@ -15,10 +15,9 @@ function Navbar() {
         navigate("/login")
     }
     return (
-        <nav className={`px-2 h-14 w-full bg-[#FF004F] text-white md:font-semibold text-3xl flex items-center ${token ? "justify-between" : "justify-center"}`}>
-            <div></div>
+        <nav className=" relative px-2 h-14 w-full bg-[#FF004F] text-white md:font-semibold text-3xl flex items-center justify-center">
             <h1>Claris Admin</h1>
-            {token ? <Button onClick={handleSingout}>Signout</Button> : null}
+            {token ? <Button className='absolute right-2' onClick={handleSingout}>Signout</Button> : null}
         </nav>
     )
 }

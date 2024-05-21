@@ -5,7 +5,7 @@ import { ColorRing } from 'react-loader-spinner';
 import NoBookingCard from '../components/NoBookingCard';
 import { Totalpage, ContentItemData, selectPagination } from '../redux/ContentSlice';
 import Cards from '../components/Cards';
-import Buttons from '../components/Button';
+import Buttons from '../Elements/Button';
 import { getContentData } from '../redux/Action/content.action';
 
 function Content({ ids, restraurantId }) {

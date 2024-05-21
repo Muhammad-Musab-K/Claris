@@ -2,19 +2,20 @@ import React from 'react'
 import Insta from "../assests/insta.png";
 import TikTok from "../assests/tiktok.png"
 import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { isOpen } from '../redux/ActivationSlice';
 import { InfluencerModalData } from '../redux/ModalSlice';
 
-function InfluencerCard({ IG_account, Tiktok_account, Profile_pic, name, bio, Birthday, NickName, id }) {
+function InfluencerCard({ IG_account, Tiktok_account, Profile_pic, name, bio, Birthday, NickName, id, Approved, NotApproved }) {
     const dispatch = useDispatch()
     const modalOpen = () => {
-
-        dispatch(isOpen(true))
-        dispatch(InfluencerModalData({ IG_account, Tiktok_account, Profile_pic, name, bio, Birthday, NickName, id }))
+        if (!Approved && NotApproved) {
+            dispatch(isOpen(true))
+            dispatch(InfluencerModalData({ IG_account, Tiktok_account, Profile_pic, name, bio, Birthday, NickName, id }))
+        }
     }
     return (
-        <div onClick={modalOpen} className=' flex gap-4 rounded-lg w-full mx-3 sm:mx-0 sm:w-[300px] shadow p-3'>
+        <div onClick={modalOpen} className=' flex gap-4 rounded-lg w-full mx-3 sm:mx-0 sm:w-[300px] shadow p-3' >
             <img className='h-16 w-16 md:h-24 md:w-24 rounded-lg object-cover' src={Profile_pic?.url || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVrLgzSMdH62yI75gb9jx3MTTR0o0VLDntTteWqR6rPQ&s"} alt="" />
 
             <div className='flex flex-col justify-between py-2'>
@@ -35,7 +36,7 @@ function InfluencerCard({ IG_account, Tiktok_account, Profile_pic, name, bio, Bi
                     )}
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 

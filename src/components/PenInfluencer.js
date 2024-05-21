@@ -3,8 +3,6 @@ import InfluencerCard from './InfluencerCard'
 import { useSelector } from 'react-redux'
 import { pendingInfluencer } from '../redux/InfluencerSlice'
 
-
-
 function PenInfluencer() {
 
     const isPendingInfluencer = useSelector(state => pendingInfluencer(state))
@@ -16,7 +14,6 @@ function PenInfluencer() {
                 {isPendingInfluencer?.map((item, index) => <InfluencerCard key={index} {...item} />)}
             </div>
         </section>
-
     )
 }
 

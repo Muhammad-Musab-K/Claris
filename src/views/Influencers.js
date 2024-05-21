@@ -9,8 +9,9 @@ import InfluencerModal from '../components/InfluencerModal'
 import { useNavigate } from 'react-router-dom'
 import { getAllInfluencer } from '../redux/Action/influencer.action'
 import { acceptedInfleuncer, pendingInfleuncer, rejectedInfleuncer, AcceptedTab, PendingTab, RejectedTab } from '../redux/ActivationSlice'
-import ActiveButton from '../components/ActiveButton'
+import ActiveButton from '../Elements/ActiveButton'
 import RejectedInfluncer from '../components/RejectedInfluencer'
+import Container from '../Elements/Container'
 
 function Influencers() {
 
@@ -40,21 +41,23 @@ function Influencers() {
     return (
         <div className={`w-full ${isopen ? "blur-sm" : ""} `}>
             <Navbar />
-            <div className='flex justify-between p-5'>
-                <div className='flex gap-2'>
-                    <ActiveButton onClick={handlePendingInflu} contentActive={pendingInflu} text="Pending" />
-                    <ActiveButton onClick={handleAccptedInflu} contentActive={acceptInflu} text="Accepted" />
-                    <ActiveButton onClick={handleRejectInflu} contentActive={rejectInflu} text="Rejected" />
+            <Container>
+                <div className='flex justify-between p-5'>
+                    <div className='flex gap-2'>
+                        <ActiveButton onClick={handlePendingInflu} contentActive={pendingInflu} text="Pending" />
+                        <ActiveButton onClick={handleAccptedInflu} contentActive={acceptInflu} text="Accepted" />
+                        <ActiveButton onClick={handleRejectInflu} contentActive={rejectInflu} text="Rejected" />
+                    </div>
+                    <Button onClick={handleBack} appearance='ghost'>Restaurants</Button>
                 </div>
-                <Button onClick={handleBack} appearance='ghost'>Restaurants</Button>
-            </div>
-            <div className='w-full max-w-6xl m-auto flex flex-col items-center'>
+                <div className='w-full max-w-6xl m-auto flex flex-col items-center'>
 
-                {pendingInflu && <PenInfluencer />}
-                {acceptInflu && <AcceptInfluencer />}
-                {rejectInflu && <RejectedInfluncer />}
-            </div>
-            <InfluencerModal />
+                    {pendingInflu && <PenInfluencer />}
+                    {acceptInflu && <AcceptInfluencer />}
+                    {rejectInflu && <RejectedInfluncer />}
+                </div>
+                <InfluencerModal />
+            </Container>
         </div>
     )
 }
