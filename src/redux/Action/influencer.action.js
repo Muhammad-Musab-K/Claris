@@ -1,17 +1,21 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { setAllinfluencer } from "../InfluencerSlice";
-import axios from "axios";
+import { setAllinfluencer, setTotalPages } from "../InfluencerSlice";
+import axiosInstance from "../../axiosInstance";
 
 
 export const getAllInfluencer = createAsyncThunk(
     "influencer/fetchInfluencers",
-    async ({ token }, { dispatch }) => {
+    async ({ token, page, status }, { dispatch }) => {
         try {
-            const response = await axios.get("https://xbut-eryu-hhsg.f2.xano.io/api:bwh6Xc5O/user-turbo/list", {
+            const response = await axiosInstance.get(`/user-turbo/list?page=${page}&status=${status}`, {
+
                 headers: { Authorization: token },
             });
             if (response) {
-                dispatch(setAllinfluencer(response.data));
+                dispatch(setAllinfluencer(response.data.items));
+                dispatch(setTotalPages(response.data.pageTotal));
+
+                console.log(response)
             }
         } catch (err) {
         }

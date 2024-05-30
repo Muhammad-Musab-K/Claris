@@ -6,16 +6,16 @@ import { useDispatch } from 'react-redux';
 import { isOpen } from '../redux/ActivationSlice';
 import { InfluencerModalData } from '../redux/ModalSlice';
 
-function InfluencerCard({ IG_account, Tiktok_account, Profile_pic, name, bio, Birthday, NickName, id, Approved, NotApproved }) {
+function InfluencerCard({ IG_account, Tiktok_account, Profile_pic, name, bio, Birthday, NickName, id, UserStatus }) {
+
     const dispatch = useDispatch()
+
     const modalOpen = () => {
-        if (!Approved && NotApproved) {
-            dispatch(isOpen(true))
-            dispatch(InfluencerModalData({ IG_account, Tiktok_account, Profile_pic, name, bio, Birthday, NickName, id }))
-        }
+        dispatch(isOpen(true))
+        dispatch(InfluencerModalData({ IG_account, Tiktok_account, Profile_pic, name, bio, Birthday, NickName, id, UserStatus }))
     }
     return (
-        <div onClick={modalOpen} className=' flex gap-4 rounded-lg w-full mx-3 sm:mx-0 sm:w-[300px] shadow p-3' >
+        <div onClick={modalOpen} className=' cursor-pointer flex gap-4 rounded-lg w-full mx-3 sm:mx-0 sm:w-[300px] shadow p-3' >
             <img className='h-16 w-16 md:h-24 md:w-24 rounded-lg object-cover' src={Profile_pic?.url || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVrLgzSMdH62yI75gb9jx3MTTR0o0VLDntTteWqR6rPQ&s"} alt="" />
 
             <div className='flex flex-col justify-between py-2'>

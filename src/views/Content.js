@@ -7,6 +7,7 @@ import { Totalpage, ContentItemData, selectPagination } from '../redux/ContentSl
 import Cards from '../components/Cards';
 import Buttons from '../Elements/Button';
 import { getContentData } from '../redux/Action/content.action';
+import MyModal from '../components/Modal';
 
 function Content({ ids, restraurantId }) {
     const [page, setPage] = useState(1);
@@ -87,6 +88,7 @@ function Content({ ids, restraurantId }) {
                 {content}
 
             </div>
+            <MyModal contentStatus={true} />
         </div>
     );
 }

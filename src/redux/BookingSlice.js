@@ -1,11 +1,11 @@
 import { createSlice, createAsyncThunk, createDraftSafeSelector } from "@reduxjs/toolkit";
-import axios from "axios";
+import axiosInstance from "../axiosInstance";
 
 export const bookingData = createAsyncThunk(
     "Bookings/AllBookings", async ({ ids, page, restraurantId, token }) => {
         try {
-            const url = `https://xbut-eryu-hhsg.f2.xano.io/api:bwh6Xc5O/booking_turbo/${restraurantId}`;
-            const data = await axios.get(url, {
+            const url = `/booking_turbo/${restraurantId}`;
+            const data = await axiosInstance.get(url, {
                 params: {
                     restaurantIds: ids,
                     page: page

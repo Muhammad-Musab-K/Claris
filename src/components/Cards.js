@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -6,21 +6,28 @@ import Insta from "../assests/insta.png";
 import TikTok from "../assests/tiktok.png";
 import background from "../assests/clarisimg.jpeg"
 import Span from "../Elements/Span";
-import { Button } from 'rsuite';
 import { isOpen } from '../redux/ActivationSlice';
 import { ModalData } from '../redux/ModalSlice';
-import { setContent } from '../redux/Action/content.action';
-import { selectIsLoggedIn } from '../redux/LoginSlice';
 
-function Cards({ user_turbo, restaurant_turbo, BookingDay, canceled, Rejectedstatus, Approved, actions_turbo, timeframes_turbo, id, content_status_turbo_id }) {
 
-    const [showButton, setShowButton] = useState(false)
+function Cards({
+    user_turbo,
+    restaurant_turbo,
+    BookingDay,
+    canceled,
+    Rejectedstatus,
+    Approved,
+    actions_turbo,
+    timeframes_turbo,
+    id,
+    content_status_turbo_id,
+    vanue_images
+}) {
 
     const dispatch = useDispatch()
     const modalOpen = () => {
-
         dispatch(isOpen(true))
-        dispatch(ModalData({ user_turbo }))
+        dispatch(ModalData({ user_turbo, vanue_images, content_status_turbo_id, id }))
     }
 
     const bookingCompleted = () => {
@@ -30,12 +37,7 @@ function Cards({ user_turbo, restaurant_turbo, BookingDay, canceled, Rejectedsta
         }
         return false;
     };
-    const token = useSelector(selectIsLoggedIn)
-    const handleContentApprovedOrReject = async (status) => {
-        await dispatch(setContent({ id, status, token }))
-        setShowButton(true)
-    }
-
+    
     const bookingStatus = () => {
         if (canceled) return <Span bg_color="bg-red-500" text="Canceled" />;
         if (Rejectedstatus) return <Span bg_color="bg-red-500" text="Denied" />;
@@ -48,7 +50,7 @@ function Cards({ user_turbo, restaurant_turbo, BookingDay, canceled, Rejectedsta
     const ContentTrue = useSelector(state => state.activationButton.activateContent)
 
     return (
-        <div className='border-2 mb-3 w-full md:m-2 md:w-[250px] flex flex-col gap-4 bg-slate-50 rounded-lg p-3 hover:opacity-90'>
+        <div onClick={modalOpen} className='cursor-pointer border-2 mb-3 w-full md:m-2 md:w-[250px] flex flex-col gap-4 bg-slate-50 rounded-lg p-3 hover:opacity-90'>
             <div
                 style={{
                     backgroundImage: `url(${restaurant_turbo?.Cover?.url ? restaurant_turbo?.Cover?.url : background})`,
@@ -67,7 +69,7 @@ function Cards({ user_turbo, restaurant_turbo, BookingDay, canceled, Rejectedsta
             </div>
             <div className='flex gap-2'>
                 <img
-                    onClick={modalOpen}
+
                     className='h-20 w-20 rounded-lg object-cover'
                     src={user_turbo?.Profile_pic?.url || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVrLgzSMdH62yI75gb9jx3MTTR0o0VLDntTteWqR6rPQ&s"}
                     alt="Profile pic" />
@@ -117,7 +119,7 @@ function Cards({ user_turbo, restaurant_turbo, BookingDay, canceled, Rejectedsta
                     </h6>
                 </div>
             </div>
-            {ContentTrue ? (
+            {/* {ContentTrue ? (
                 <div className='flex gap-3'>
                     {content_status_turbo_id === 1 ? (
                         <>
@@ -141,7 +143,7 @@ function Cards({ user_turbo, restaurant_turbo, BookingDay, canceled, Rejectedsta
                         <h6>Rejected!</h6>
                     ) : null}
                 </div>
-            ) : null}
+            ) : null} */}
         </div>
     );
 }

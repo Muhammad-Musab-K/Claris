@@ -1,9 +1,11 @@
 import { createSlice, createDraftSafeSelector } from "@reduxjs/toolkit";
 
+
 const initialState = {
     influencer: {},
     status: "idle",
-    error: null
+    error: null,
+    totalpage: 1
 };
 const Key = 'influencer'
 const InfluencerSlice = createSlice({
@@ -18,17 +20,20 @@ const InfluencerSlice = createSlice({
                 }
             }, {});
         },
+        setTotalPages: (state, { payload }) => {
+            state.totalpage = payload
+        },
         setInfluencerAcepeted: (state, { payload }) => {
             const singleInfluencer = state.influencer[payload + Key]
             if (singleInfluencer) {
-                singleInfluencer.Approved = true
+                singleInfluencer.UserStatus = "approved"
             }
         },
         setInfluencerRejected: (state, { payload }) => {
             const singleInfluencer = state.influencer[payload + Key]
             if (singleInfluencer) {
-                singleInfluencer.NotApproved = false
-                singleInfluencer.Approved = false
+                singleInfluencer.UserStatus = "rejected"
+
             }
         }
     },
@@ -39,28 +44,36 @@ export const {
     setInfluencerAcepeted,
     setAllinfluencer,
     updateSIngleInfluencer,
-    setInfluencerRejected
+    setInfluencerRejected,
+    setTotalPages
 } = InfluencerSlice.actions
 
 export const influencerState = createDraftSafeSelector(
     [state => state.influencer],
     state => state
 )
+
 export const influencerObject = createDraftSafeSelector(
     [influencerState],
     state => state.influencer
 )
 export const pendingInfluencer = createDraftSafeSelector(
     [influencerObject],
-    (influencers) => Object.values(influencers || {})?.filter((item) => !item.Approved && item.NotApproved)
+    (influencers) => Object.values(influencers || {})?.filter((item) => item.UserStatus === "" || item.UserStatus === "onapproval")
 );
 export const acceptedInfluencer = createDraftSafeSelector(
     [influencerObject],
-    (influencers) => Object.values(influencers || {})?.filter((item) => item.Approved)
+    (influencers) => Object.values(influencers || {})?.filter((item) => item.UserStatus === "approved")
 );
 export const rejectedInfluencer = createDraftSafeSelector(
     [influencerObject],
-    (influencers) => Object.values(influencers || {})?.filter((item) => !item.NotApproved && !item.Approved)
+    (influencers) => Object.values(influencers || {})?.filter((item) => item.UserStatus === "rejected")
 );
+
+export const totalPagesInfluencer = createDraftSafeSelector(
+    [influencerState],
+    state => state.totalpage
+);
+
 
 export default InfluencerSlice.reducer;

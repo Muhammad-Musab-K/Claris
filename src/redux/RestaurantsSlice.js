@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
+import axiosInstance from "../axiosInstance";
 
 const initialState = {
     status: "idle",
@@ -10,7 +10,7 @@ const initialState = {
 export const restaurentsData = createAsyncThunk(
     "restraurents", async ({ id, token }) => {
         try {
-            const data = await axios.get(`https://xbut-eryu-hhsg.f2.xano.io/api:bwh6Xc5O/restaurants/${id}`,
+            const data = await axiosInstance.get(`/restaurants/${id}`,
                 { headers: { "Authorization": token, } }
             )
             const response = data

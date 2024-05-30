@@ -46,7 +46,11 @@ function Form() {
             </div>
             <Button
                 onClick={handleLogin}
-                className="w-24 md:font-semibold text-base text-white bg-[#FF004F] rounded-md py-2">Login</Button>
+                className="w-24 md:font-semibold text-base text-white bg-[#FF004F] rounded-md py-2">Login
+            </Button>
+            <div>
+                {/* <Link><p>ForgoPassword</p></Link> */}
+            </div>
         </div>
     )
 }

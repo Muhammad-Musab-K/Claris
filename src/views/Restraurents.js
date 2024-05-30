@@ -85,7 +85,7 @@ function Restraurents() {
                 {bookingActive ? <Bookings ids={ids} restraurantId={id} />
                     : <Content ids={ids} restraurantId={id} />}
             </Container >
-            <MyModal />
+            {/* <MyModal /> */}
         </div >
     )
 }

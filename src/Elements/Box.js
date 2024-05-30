@@ -8,7 +8,7 @@ function Box({ id, name, image }) {
     return (
         <div
             id={id}
-            className='bg-[#CCCCCC] rounded-md w-72 md:w-[400px] h-48'
+            className='cursor-pointer bg-[#CCCCCC] rounded-md w-72 md:w-[400px] h-48'
             onClick={handleClick}
         >
             <img className='w-[429px] h-36 rounded-md' src={image} alt="" />

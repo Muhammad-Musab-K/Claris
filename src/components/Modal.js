@@ -1,17 +1,29 @@
-import { Button, Dialog, DialogPanel, Transition, TransitionChild } from '@headlessui/react'
+import { useState } from 'react';
+import { Dialog, DialogPanel, Transition, TransitionChild } from '@headlessui/react'
 import { useDispatch, useSelector } from 'react-redux'
 import { HiMiniXMark } from "react-icons/hi2";
 import { Link } from 'react-router-dom'
+import { Button } from 'rsuite';
 
 import { isOpen } from '../redux/ActivationSlice'
 import { selectUserTurbo } from '../redux/ModalSlice'
 import TikTok from "../assests/tiktok.png"
 import Insta from "../assests/insta.png"
+import { selectIsLoggedIn } from '../redux/LoginSlice';
+import { setContent } from '../redux/Action/content.action';
 
-export default function MyModal() {
+export default function MyModal({ contentStatus }) {
 
     const dispatch = useDispatch()
-    const customerData = useSelector(selectUserTurbo)
+    const [showButton, setShowButton] = useState(false)
+    const { user_turbo, vanue_images, content_status_turbo_id, id } = useSelector(selectUserTurbo)
+    const token = useSelector(selectIsLoggedIn)
+
+    const handleContentApprovedOrReject = async (status) => {
+        await dispatch(setContent({ id, status, token }))
+        setShowButton(true)
+    }
+
     function close() {
         dispatch(isOpen(false))
     }
@@ -35,21 +47,28 @@ export default function MyModal() {
                                     <div className='flex gap-4 relative'>
                                         <img
                                             className='h-36 w-h-36 rounded-lg object-cover'
-                                            src={customerData?.Profile_pic?.url || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVrLgzSMdH62yI75gb9jx3MTTR0o0VLDntTteWqR6rPQ&s"}
+                                            src={user_turbo?.Profile_pic?.url || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVrLgzSMdH62yI75gb9jx3MTTR0o0VLDntTteWqR6rPQ&s"}
                                             alt="Profile pic" />
-                                            <HiMiniXMark onClick={close} className='absolute text-xl hover:opacity-45 right-0' />
+                                        <HiMiniXMark onClick={close} className='absolute text-xl hover:opacity-45 right-0' />
 
                                         <div>
-                                            <h6 className='text-black md:font-semibold text-lg'>{customerData?.name}</h6>
-                                            {customerData?.IG_account && (
-                                                <Link to={`https://instagram.com/${customerData?.IG_account}`}>
-                                                    <img className='h-8 w-8' src={Insta} alt="Instagram" />
+                                            <h6 className='text-black md:font-semibold text-lg'>{user_turbo?.name}</h6>
+                                            {user_turbo?.IG_account && (
+
+                                                <Link to={user_turbo?.IG_account.includes("https://www.instagram.com/")
+                                                    ? user_turbo.IG_account
+                                                    : `https://www.instagram.com/${user_turbo?.IG_account}`}>
+                                                    <img className="h-8 w-8" src={Insta} alt="Instagram" />
                                                 </Link>
                                             )}
-                                            {customerData?.Tiktok_account && (
-                                                <Link to={`https://tiktok/en/${customerData?.Tiktok_account}`}>
-                                                    <img className='h-8 w-8' src={TikTok} alt="TikTok" />
+                                            {user_turbo?.Tiktok_account && (
+
+                                                <Link to={user_turbo?.Tiktok_account.includes("https://www.tiktok.com/")
+                                                    ? user_turbo.Tiktok_account
+                                                    : `https://www.tiktok.com/${user_turbo?.Tiktok_account}`}>
+                                                    <img className="h-8 w-8" src={TikTok} alt="tiktok" />
                                                 </Link>
+
                                             )}
                                         </div>
                                     </div>
@@ -61,12 +80,47 @@ export default function MyModal() {
 
                                         </div>
                                         <div className='text-black'>
-                                            <p>{customerData?.NickName ? customerData?.NickName : "unknown"}</p>
-                                            <p>{customerData?.nationality ? customerData?.nationality : "unknown"}</p>
-                                            <p>{customerData?.bio ? customerData?.bio : "unknown"}</p>
+                                            <p>{user_turbo?.NickName ? user_turbo?.NickName : "unknown"}</p>
+                                            <p>{user_turbo?.nationality ? user_turbo?.nationality : "unknown"}</p>
+                                            <p>{user_turbo?.bio ? user_turbo?.bio : "unknown"}</p>
 
                                         </div>
                                     </div>
+                                    {vanue_images && vanue_images.length > 0 && vanue_images[0] !== null && (
+                                        <div className='flex-col gap-2'>
+                                            <h6 className='font-semibold '>Venue Images</h6>
+                                            <div className='flex gap-1 flex-wrap'>
+                                                {vanue_images.map((item, index) => (
+                                                    <img key={index} className='rounded-md w-20 h-20 object-cover' src={item?.url} alt={`Venue ${index}`} />
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+                                    {contentStatus ? (
+                                        <div className='flex gap-3'>
+                                            {content_status_turbo_id === 1 ? (
+                                                <>
+                                                    <Button
+                                                        onClick={() => handleContentApprovedOrReject(2)}
+                                                        className='bg-[#FF004F] text-white px-5'
+                                                    >
+                                                        Approve
+                                                    </Button>
+                                                    <Button
+                                                        onClick={() => handleContentApprovedOrReject(3)}
+                                                        className='px-10'
+                                                        appearance='ghost'
+                                                    >
+                                                        Reject
+                                                    </Button>
+                                                </>
+                                            ) : content_status_turbo_id === 2 ? (
+                                                <h6>Completed!</h6>
+                                            ) : content_status_turbo_id === 3 ? (
+                                                <h6>Rejected!</h6>
+                                            ) : null}
+                                        </div>
+                                    ) : null}
                                 </DialogPanel>
                             </TransitionChild>
                         </div>

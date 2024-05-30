@@ -1,17 +1,21 @@
 
 
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
 import { setInfluencerAcepeted, setInfluencerRejected } from "./InfluencerSlice";
+import axiosInstance from "../axiosInstance";
+
 
 export const HandleReq = createAsyncThunk(
     "RequestAorR",
     async ({ id, res, token }, { dispatch }) => {
         console.log(id, res, token)
         try {
-            const response = await axios.put(
-                `https://xbut-eryu-hhsg.f2.xano.io/api:bwh6Xc5O/user-turbo/status/${id}`,
-                { "Approved": res },
+            const body = {
+                UserStatus: res
+            }
+            const response = await axiosInstance.put(
+                `/user-turbo/status/${id}`,
+                body,
                 {
                     headers: {
                         "Authorization": `Bearer ${token}`,
@@ -35,9 +39,12 @@ export const HandleReject = createAsyncThunk(
     async ({ id, res, token }, { dispatch }) => {
         console.log(id, res, token)
         try {
-            const response = await axios.put(
-                `https://xbut-eryu-hhsg.f2.xano.io/api:bwh6Xc5O/user-turbo/status/${id}`,
-                { "NotApproved": res },
+            const body = {
+                UserStatus: res
+            }
+            const response = await axiosInstance.put(
+                `/user-turbo/status/${id}`,
+                body,
                 {
                     headers: {
                         "Authorization": `Bearer ${token}`,

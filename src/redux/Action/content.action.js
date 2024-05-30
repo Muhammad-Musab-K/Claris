@@ -1,13 +1,13 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-import { setAprroveContent, setNewContent, setPagination, setRejectContent } from "../ContentSlice";
+import { setAprroveContent, setNewContent, setPagination } from "../ContentSlice";
+import axiosInstance from "../../axiosInstance";
 
 
 export const getContentData = createAsyncThunk(
     "Bookings/AllBookings", async ({ ids, page, restraurantId, token }, { dispatch }) => {
         try {
-            const url = `https://xbut-eryu-hhsg.f2.xano.io/api:bwh6Xc5O/booking_turbo/content_status/${restraurantId}`;
-            const res = await axios.get(url, {
+            const url = `/booking_turbo/content_status/${restraurantId}`;
+            const res = await axiosInstance.get(url, {
                 params: {
                     restaurantIds: ids,
                     page: page
@@ -31,7 +31,7 @@ export const getContentData = createAsyncThunk(
 export const setContent = createAsyncThunk(
     "setContent", async ({ id, status, token }, { dispatch }) => {
         try {
-            const response = await axios.put(`https://xbut-eryu-hhsg.f2.xano.io/api:bwh6Xc5O/booking_turbo/content_status/${id}`,
+            const response = await axiosInstance.put(`/booking_turbo/content_status/${id}`,
                 { "status": status },
                 {
                     headers: {

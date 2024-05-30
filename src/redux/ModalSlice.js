@@ -23,13 +23,13 @@ const selectInfluencerModal = (state) => state?.modalData?.influencerModal
 
 export const selectUserTurbo = createDraftSafeSelector(
     selectUserModal,
-    (userModal) => userModal?.user_turbo
+    (userModal) => userModal
 );
+
 export const selectInfluencerTurbo = createDraftSafeSelector(
     selectInfluencerModal,
     (influencerModal) => influencerModal
 );
-
 
 export const { ModalData, InfluencerModalData } = ModalSlice.actions;
 export default ModalSlice.reducer;
