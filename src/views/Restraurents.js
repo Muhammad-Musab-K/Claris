@@ -11,8 +11,12 @@ import Content from './Content'
 import ActiveButton from '../Elements/ActiveButton';
 import { activeBook, activeCon, isOpen } from '../redux/ActivationSlice';
 import BackButton from '../Elements/BackButton';
-import MyModal from '../components/Modal';
 import Container from '../Elements/Container';
+import { selectCities, selectRole } from '../redux/LoginSlice';
+import Tabs from '../components/Tabs';
+
+
+
 
 function Restraurents() {
     const dispatch = useDispatch()
@@ -20,6 +24,9 @@ function Restraurents() {
     const { id } = useParams()
     const [ids, setIds] = useState([])
     const [restro, setRestro] = useState([])
+    const role = useSelector(selectRole);
+    const cities = useSelector(selectCities);
+    console.log(cities + "city")
 
 
     let city;
@@ -54,14 +61,14 @@ function Restraurents() {
             <Navbar />
             <Container>
                 <div className='m-6 flex justify-between'>
-                    <BackButton />
+                    {cities?.length === 0 || cities?.length === 2 ? <BackButton /> : <div></div>}
                     <h1 className='font-semibold text-4xl text-center'>{city}</h1>
                     <div></div>
                 </div>
                 <div className='mt-4 flex flex-col justify-center gap-2 md:gap-0 flex-wrap md:flex-row md:justify-between items-center px-10 pb-8'>
                     <div className='flex gap-2'>
                         <ActiveButton onClick={handleBookingPage} contentActive={bookingActive} text="Bookings" />
-                        <ActiveButton onClick={handleContentPage} contentActive={contentActive} text="Content" />
+                        < ActiveButton onClick={handleContentPage} contentActive={contentActive} text="Content" />
                     </div>
                     <div className='flex gap-2 self-end '>
                         <Stack spacing={10} direction="row" alignItems="flex-start">
@@ -79,13 +86,13 @@ function Restraurents() {
                             Apply
                         </Button>
                     </div>
-                    <Button onClick={() => navigate("/influencers")} appearance="ghost">Users</Button>
+                    {role === "admin" ? <Button onClick={() => navigate("/influencers")} appearance="ghost">Users</Button> : <div></div>}
 
                 </div>
                 {bookingActive ? <Bookings ids={ids} restraurantId={id} />
                     : <Content ids={ids} restraurantId={id} />}
             </Container >
-            {/* <MyModal /> */}
+
         </div >
     )
 }

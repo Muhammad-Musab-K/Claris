@@ -5,7 +5,7 @@ export const locationsData = createAsyncThunk(
     "locations/AllLocations", async () => {
         try {
             const data = await axiosInstance.get("/locations");
-            const response = data.data
+            const response = data?.data
             return response
         }
         catch (err) {
@@ -16,7 +16,7 @@ export const locationsData = createAsyncThunk(
 
 const initialState = {
     status: "idle",
-    location: [],
+    location: {},
 }
 
 const LocationSlice = createSlice({

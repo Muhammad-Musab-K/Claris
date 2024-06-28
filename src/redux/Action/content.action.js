@@ -17,6 +17,7 @@ export const getContentData = createAsyncThunk(
             if (res) {
                 console.log(res, 'CheckCOntent')
                 const { items, ...rest } = res?.data
+                console.log(items, 'CheckCOntent')
                 dispatch(setNewContent(items))
                 dispatch(setPagination(rest))
             }

@@ -9,11 +9,11 @@ import Span from "../Elements/Span";
 import { isOpen } from '../redux/ActivationSlice';
 import { ModalData } from '../redux/ModalSlice';
 
-
 function Cards({
     user_turbo,
     restaurant_turbo,
     BookingDay,
+    ApprovalStatus,
     canceled,
     Rejectedstatus,
     Approved,
@@ -21,14 +21,28 @@ function Cards({
     timeframes_turbo,
     id,
     content_status_turbo_id,
-    vanue_images
+    vanue_images,
+    isContent,
+    isBooking,
+    content_url
 }) {
 
     const dispatch = useDispatch()
     const modalOpen = () => {
         dispatch(isOpen(true))
-        dispatch(ModalData({ user_turbo, vanue_images, content_status_turbo_id, id }))
+        dispatch(ModalData({
+            user_turbo,
+            vanue_images,
+            content_status_turbo_id,
+            id,
+            ApprovalStatus,
+            canceled,
+            Rejectedstatus,
+            Approved,
+            content_url
+        }))
     }
+
 
     const bookingCompleted = () => {
         if (BookingDay) {
@@ -37,13 +51,14 @@ function Cards({
         }
         return false;
     };
-    
+
     const bookingStatus = () => {
         if (canceled) return <Span bg_color="bg-red-500" text="Canceled" />;
-        if (Rejectedstatus) return <Span bg_color="bg-red-500" text="Denied" />;
+        if (Rejectedstatus) return <Span bg_color="bg-red-500" text="Rejected" />;
         if (!Approved && !canceled && !Rejectedstatus) return <Span bg_color="bg-yellow-500" text="Pending" />;
+        if (ApprovalStatus) return <Span bg_color="bg-yellow-500" text="Approval" />;
         if (Approved && bookingCompleted()) return <Span bg_color="bg-green-700" text="Incoming" />;
-        if (Approved && !bookingCompleted()) return <Span bg_color="bg-green-400" text="Completed" />;
+        if (Approved && !bookingCompleted()) return <Span bg_color="bg-green-400" text="Approved" />;
     };
 
     const actionName = actions_turbo?.Action_Name.split(" ")[0];
@@ -63,9 +78,7 @@ function Cards({
                         {restaurant_turbo?.Name}
                     </span>
                 </div>
-                <div className='flex justify-end'>
-                    {bookingStatus()}
-                </div>
+              
             </div>
             <div className='flex gap-2'>
                 <img
@@ -111,39 +124,29 @@ function Cards({
                 <div className='text-sm text-slate-500 md:font-semibold'>
                     <h6>Booking Day</h6>
                     <h6>Booking Time</h6>
+                    {isBooking ? <h6>Booking Status</h6> : <h6>Content Status</h6>}
                 </div>
                 <div className='text-sm text-black md:font-semibold'>
                     <h6>{BookingDay}</h6>
                     <h6>
                         {timeframes_turbo?.Start}:{timeframes_turbo?.Minute_Start} - {timeframes_turbo?.End}:{timeframes_turbo?.Minute_End}
                     </h6>
+                    {isBooking ? <h6>{bookingStatus()}</h6> : null}
+                    {isContent ? <h6>{<Span
+
+                        text={content_status_turbo_id === 2 ?
+                            "Approved" :
+                            content_status_turbo_id === 3 ?
+                                "Rejected" : "Pending"}
+                        bg_color={content_status_turbo_id === 2 ?
+                            "bg-green-400" :
+                            content_status_turbo_id === 3 ?
+                                "bg-red-500" : "bg-yellow-500"} />}</h6> : null}
+
                 </div>
             </div>
-            {/* {ContentTrue ? (
-                <div className='flex gap-3'>
-                    {content_status_turbo_id === 1 ? (
-                        <>
-                            <Button
-                                onClick={() => handleContentApprovedOrReject(2)}
-                                className='bg-[#FF004F] text-white px-5'
-                            >
-                                Approve
-                            </Button>
-                            <Button
-                                onClick={() => handleContentApprovedOrReject(3)}
-                                className='px-10'
-                                appearance='ghost'
-                            >
-                                Reject
-                            </Button>
-                        </>
-                    ) : content_status_turbo_id === 2 ? (
-                        <h6>Completed!</h6>
-                    ) : content_status_turbo_id === 3 ? (
-                        <h6>Rejected!</h6>
-                    ) : null}
-                </div>
-            ) : null} */}
+           
+
         </div>
     );
 }

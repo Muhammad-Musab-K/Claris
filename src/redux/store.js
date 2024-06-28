@@ -3,7 +3,6 @@ import storage from "redux-persist/lib/storage";
 import persistReducer from "redux-persist/es/persistReducer";
 import persistStore from "redux-persist/es/persistStore";
 
-
 import LocationSlice from "./LocationSlice";
 import RestaurantsSlice from "./RestaurantsSlice";
 import BookingSlice from "./BookingSlice";
@@ -26,7 +25,7 @@ const rootReducer = combineReducers({
     activationButton: ActivationSlice,
     modalData: ModalSlice,
     influencer: InfluencerSlice,
-    request: HandleReqSlice
+    request: HandleReqSlice,
 });
 
 const persistConfig = {
@@ -45,4 +44,4 @@ const persistor = persistStore(store);
 setupAxiosInterceptors(store)
 
 
-export { store, persistor   ,axiosInstance};
+export { store, persistor, axiosInstance };

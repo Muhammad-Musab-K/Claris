@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, createSelector } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, createSelector, createDraftSafeSelector } from "@reduxjs/toolkit";
 import axios from "axios";
 import Swal from "sweetalert2";
 
@@ -54,11 +54,29 @@ const LoginSlice = createSlice({
     }
 })
 
-export const selectIsLoggedIn = createSelector(
-    state => state?.loginUser?.token,
-    token => {
-        return token
-    }
+export const selectIs = createDraftSafeSelector(
+    [state => state?.loginUser.response],
+    state => state
 )
+
+export const selectIsLoggedIn = createDraftSafeSelector(
+    [state => state?.loginUser?.token],
+    token => token
+)
+export const selectRole = createDraftSafeSelector(
+    [selectIs],
+    state => state?.roles[0]
+)
+export const selectRestaurants = createDraftSafeSelector(
+    [selectIs],
+    state => state?.restaurant_turbo_id
+)
+export const selectCities = createDraftSafeSelector(
+    [selectIs],
+    state => state?.cities
+)
+
+
+
 export const { resetState } = LoginSlice.actions
 export default LoginSlice.reducer

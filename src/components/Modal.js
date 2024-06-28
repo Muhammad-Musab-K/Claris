@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Dialog, DialogPanel, Transition, TransitionChild } from '@headlessui/react'
 import { useDispatch, useSelector } from 'react-redux'
 import { HiMiniXMark } from "react-icons/hi2";
@@ -11,23 +10,33 @@ import TikTok from "../assests/tiktok.png"
 import Insta from "../assests/insta.png"
 import { selectIsLoggedIn } from '../redux/LoginSlice';
 import { setContent } from '../redux/Action/content.action';
+import { setBookings } from '../redux/Action/bookingAction';
+
 
 export default function MyModal({ contentStatus }) {
 
     const dispatch = useDispatch()
-    const [showButton, setShowButton] = useState(false)
-    const { user_turbo, vanue_images, content_status_turbo_id, id } = useSelector(selectUserTurbo)
+    const { user_turbo, vanue_images, content_status_turbo_id, id, Approved, ApprovalStatus, canceled, Rejectedstatus, content_url } = useSelector(selectUserTurbo)
     const token = useSelector(selectIsLoggedIn)
 
     const handleContentApprovedOrReject = async (status) => {
         await dispatch(setContent({ id, status, token }))
-        setShowButton(true)
+        dispatch(isOpen(false))
     }
+
+    const handlebookingApproval = async (Approved, rejectedStatus) => {
+        await dispatch(setBookings({ id, Approved, rejectedStatus, token }))
+        dispatch(isOpen(false))
+    }
+
 
     function close() {
         dispatch(isOpen(false))
     }
     const isopen = useSelector(state => state?.activationButton?.ModalAction)
+
+    const condition = Approved === false && ApprovalStatus === false && canceled === false && Rejectedstatus === false;
+    console.log(condition)
 
     return (
         <>
@@ -96,31 +105,54 @@ export default function MyModal({ contentStatus }) {
                                             </div>
                                         </div>
                                     )}
-                                    {contentStatus ? (
-                                        <div className='flex gap-3'>
-                                            {content_status_turbo_id === 1 ? (
+                                    <div className='flex justify-between items-center'>
+                                        {content_url ? <p><Link className='text-[#FF004F] font-semibold' to={content_url}>View Content</Link></p> : null}
+                                        {contentStatus ? (
+                                            <div className='flex gap-3'>
+                                                {content_status_turbo_id === 1 ? (
+                                                    <>
+                                                        <Button
+                                                            onClick={() => handleContentApprovedOrReject(2)}
+                                                            className='bg-[#FF004F] text-white px-5'
+                                                        >
+                                                            Approve
+                                                        </Button>
+                                                        <Button
+                                                            onClick={() => handleContentApprovedOrReject(3)}
+                                                            className='px-10'
+                                                            appearance='ghost'
+                                                        >
+                                                            Reject
+                                                        </Button>
+                                                    </>
+                                                ) : content_status_turbo_id === 2 ? (
+                                                    <h6>Completed!</h6>
+                                                ) : content_status_turbo_id === 3 ? (
+                                                    <h6>Rejected!</h6>
+                                                ) : null}
+                                            </div>
+                                        ) : null}
+                                        {condition ? (
+                                            <div className='flex gap-3'>
                                                 <>
                                                     <Button
-                                                        onClick={() => handleContentApprovedOrReject(2)}
+                                                        onClick={() => handlebookingApproval(true, false)}
                                                         className='bg-[#FF004F] text-white px-5'
                                                     >
                                                         Approve
                                                     </Button>
                                                     <Button
-                                                        onClick={() => handleContentApprovedOrReject(3)}
+                                                        onClick={() => handlebookingApproval(false, true)}
                                                         className='px-10'
                                                         appearance='ghost'
                                                     >
                                                         Reject
                                                     </Button>
                                                 </>
-                                            ) : content_status_turbo_id === 2 ? (
-                                                <h6>Completed!</h6>
-                                            ) : content_status_turbo_id === 3 ? (
-                                                <h6>Rejected!</h6>
-                                            ) : null}
-                                        </div>
-                                    ) : null}
+
+                                            </div>
+                                        ) : null}
+                                    </div>
                                 </DialogPanel>
                             </TransitionChild>
                         </div>

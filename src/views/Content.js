@@ -47,7 +47,7 @@ function Content({ ids, restraurantId }) {
     if (data?.length === 0) {
         return (
             <div className="flex justify-center items-center mt-10 text-2xl">
-                <h1>NO Content</h1>
+                <h1>No Content</h1>
             </div>
         );
     }
@@ -70,7 +70,7 @@ function Content({ ids, restraurantId }) {
                 <h4 className="text-[#FF004F] text-3xl pl-2">{bookingDay}</h4>
                 <div className="flex flex-col md:flex-row md:flex-wrap">
                     {contentItems.map((item, index) => (
-                        item?.user_turbo ? <Cards key={index} {...item} /> : <NoBookingCard key={index} />
+                        item?.user_turbo ? <Cards key={index} {...item} isContent={true} isBooking={false} /> : <NoBookingCard key={index} />
                     ))}
                 </div>
             </div>

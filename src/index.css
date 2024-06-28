@@ -68,3 +68,7 @@
     box-shadow: none;
     color: #FF004F;
 }
+
+.rs-nav-item.rs-nav-item-active {
+    color: #FF004F;
+}
